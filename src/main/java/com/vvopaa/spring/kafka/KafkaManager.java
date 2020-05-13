@@ -1,11 +1,13 @@
 package com.vvopaa.spring.kafka;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+@ConditionalOnProperty(value = "kafka.enabled", havingValue = "true")
 @Component
 @Slf4j
 public class KafkaManager {

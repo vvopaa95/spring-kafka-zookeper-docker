@@ -4,6 +4,7 @@ import com.vvopaa.spring.dto.EpamMessageDto;
 import com.vvopaa.spring.service.EpamMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -16,6 +17,7 @@ import org.springframework.messaging.handler.annotation.Header;
 
 import static com.vvopaa.spring.kafka.KafkaManager.EPAM_TOPIC;
 
+@ConditionalOnProperty(value = "kafka.enabled", havingValue = "true")
 @Configuration
 @EnableKafka
 @Slf4j
