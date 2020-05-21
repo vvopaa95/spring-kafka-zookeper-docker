@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class KafkaController {
+public class DefaultController {
 
-    @GetMapping("/test-url/")
+    @GetMapping("/")
     public ResponseEntity<String> sendMessageToTopic() {
         return ResponseEntity.ok("ok");
     }

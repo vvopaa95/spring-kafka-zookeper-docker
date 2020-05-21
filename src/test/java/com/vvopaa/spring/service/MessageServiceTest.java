@@ -36,4 +36,11 @@ public class MessageServiceTest {
         Mockito.when(messageRepository.count()).thenReturn(count);
         Assertions.assertEquals(count, messageService.countMessages());
     }
+
+    @Test
+    void testDeleteMessages() {
+        Mockito.doNothing().when(messageRepository).deleteAll();
+        messageService.deleteMessages();
+        Mockito.verify(messageRepository, Mockito.times(1)).deleteAll();
+    }
 }

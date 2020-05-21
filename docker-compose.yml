@@ -28,3 +28,5 @@ services:
     depends_on:
       - kafka
       - zookeeper
+    ports:
+    - "80:80"

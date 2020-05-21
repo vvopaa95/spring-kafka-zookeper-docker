@@ -36,8 +36,14 @@ public class KafkaProducerScheduler {
     }
 
     @Scheduled(initialDelay = 5000, fixedDelay = 15000)
-    public void getDbMessageState() {
+    public void countDbMessages() {
         log.info("There are {} messages currently in the h2 database.", messageService.countMessages());
+    }
+    
+    @Scheduled(cron = "0 * * * * ?")
+    public void deleteAllDbMessages() {
+        messageService.deleteMessages();
+        log.info("All Kafka messages from the db have been deleted.");
     }
 
     private MessageDto createDto() {

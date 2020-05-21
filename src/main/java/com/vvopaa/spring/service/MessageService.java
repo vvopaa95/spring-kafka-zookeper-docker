@@ -22,4 +22,8 @@ public class MessageService {
     public long countMessages() {
         return messageRepository.count();
     }
+
+    public void deleteMessages() {
+        messageRepository.deleteAll();
+    }
 }
