@@ -3,9 +3,9 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       enable-auto-commit: true
@@ -13,12 +13,12 @@ spring:
       properties:
         spring.json.trusted.packages: com.vvopaa.spring.dto
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       key-serializer: org.apache.kafka.common.serialization.LongSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     admin:
       properties:
-        bootstrap.servers: localhost:9092
+        bootstrap.servers: kafka:9092
   datasource:
     url: jdbc:h2:mem:secretdb
     driver-class-name: org.h2.Driver

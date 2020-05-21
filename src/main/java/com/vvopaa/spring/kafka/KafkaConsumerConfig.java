@@ -1,7 +1,7 @@
 package com.vvopaa.spring.kafka;
 
-import com.vvopaa.spring.dto.EpamMessageDto;
-import com.vvopaa.spring.service.EpamMessageService;
+import com.vvopaa.spring.dto.MessageDto;
+import com.vvopaa.spring.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -24,12 +24,12 @@ import static com.vvopaa.spring.kafka.KafkaManager.EPAM_TOPIC;
 @RequiredArgsConstructor
 public class KafkaConsumerConfig {
     private static final String CONTAINER_FACTORY_METHOD = "batchFactory";
-    private final ConsumerFactory<Long, EpamMessageDto> consumerFactory;
-    private final EpamMessageService messageService;
+    private final ConsumerFactory<Long, MessageDto> consumerFactory;
+    private final MessageService messageService;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<Long, EpamMessageDto> batchFactory() {
-        ConcurrentKafkaListenerContainerFactory<Long, EpamMessageDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<Long, MessageDto> batchFactory() {
+        ConcurrentKafkaListenerContainerFactory<Long, MessageDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         factory.setBatchListener(true);
         return factory;
@@ -37,24 +37,24 @@ public class KafkaConsumerConfig {
 
     @KafkaListener(topicPartitions = { @TopicPartition(topic = EPAM_TOPIC, partitions = {"0"}) },
             containerFactory = CONTAINER_FACTORY_METHOD)
-    public void listen0(EpamMessageDto epamMessageDto, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) long key) {
-        listenAndSaveMessage("listen0", epamMessageDto, key);
+    public void listen0(MessageDto messageDto, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) long key) {
+        listenAndSaveMessage("listen0", messageDto, key);
     }
 
     @KafkaListener(topicPartitions = { @TopicPartition(topic = EPAM_TOPIC, partitions = {"1"}) },
             containerFactory = CONTAINER_FACTORY_METHOD)
-    public void listen1(EpamMessageDto epamMessageDto, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) long key) {
-        listenAndSaveMessage("listen1", epamMessageDto, key);
+    public void listen1(MessageDto messageDto, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) long key) {
+        listenAndSaveMessage("listen1", messageDto, key);
     }
 
     @KafkaListener(topicPartitions = { @TopicPartition(topic = EPAM_TOPIC, partitions = {"2"}) },
             containerFactory = CONTAINER_FACTORY_METHOD)
-    public void listen2(EpamMessageDto epamMessageDto, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) long key) {
-        listenAndSaveMessage("listen2", epamMessageDto, key);
+    public void listen2(MessageDto messageDto, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) long key) {
+        listenAndSaveMessage("listen2", messageDto, key);
     }
 
-    private void listenAndSaveMessage(String methodName, EpamMessageDto epamMessageDto, long kafkaKey) {
-        log.info("{} - Received Message: {} with key: {}", methodName, epamMessageDto, kafkaKey);
-        messageService.save(epamMessageDto);
+    private void listenAndSaveMessage(String methodName, MessageDto messageDto, long kafkaKey) {
+        log.info("{} - Received Message: {} with key: {}", methodName, messageDto, kafkaKey);
+        messageService.save(messageDto);
     }
 }
